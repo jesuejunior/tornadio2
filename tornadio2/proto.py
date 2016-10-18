@@ -142,6 +142,8 @@ def event(endpoint, name, message_id, *args, **kwargs):
     `kwargs`
         Optional event arguments. Will be encoded as dictionary.
     """
+    encoder = kwargs.pop("cls", None)
+
     if args:
         evt = dict(
             name=name,
@@ -159,7 +161,7 @@ def event(endpoint, name, message_id, *args, **kwargs):
     return u'5:%s:%s:%s' % (
         message_id or '',
         endpoint or '',
-        json.dumps(evt)
+        json.dumps(evt, cls=encoder)
     )
 
 
